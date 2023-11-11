@@ -12,13 +12,6 @@ jobs:
           node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
-      - name: Set Git user information
-        run: |
-          git config --global user.email "github@upcode.in"
-          git config --global user.name "Upcode"
-
-      - name: Bump version and create tag
-        run: npm version minor -m "Bump version to %s"
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
