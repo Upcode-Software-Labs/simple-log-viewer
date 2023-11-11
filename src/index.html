@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplest Log Viewer</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+        }
+        .logResults {
+            white-space: pre-wrap;
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+        .error {
+            color: #ff0000;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simplest Log Viewer</h1>
+    <form id="logForm">
+        <label for="lineCount">Number of Lines to Read:</label>
+        <input type="number" id="lineCount" name="lineCount" min="1" value="10">
+        <label for="search">Word To Search:</label>
+        <input type="text" id="search" name="search" value="Error">
+        <button type="submit">Read and Display</button>
+    </form>
+    <div id="logResults"></div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const lineCountInput = document.getElementById('lineCount');
+        const searchInput = document.getElementById('search');
+        const logForm = document.getElementById('logForm');
+
+        // Display logs on document ready
+        displayLogs(10, 'Error'); // Default: Display 10 lines
+
+        logForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const linesToRead = parseInt(lineCountInput.value, 10);
+            const search = searchInput.value || 'Error';
+            displayLogs(linesToRead, search);
+        });
+    });
+
+    function displayLogs(linesToRead, search) {
+        fetch(`/readlog?lines=${linesToRead}`)
+            .then(response => response.json())
+            .then(data => {
+                const logResults = document.getElementById('logResults');
+                logResults.innerHTML = '<h2>Logs:</h2>';
+                data.logData.forEach(line => {
+                    const lineElement = document.createElement('div');
+                    lineElement.textContent = line;
+                    if (line.toLowerCase().includes(search.toLowerCase())) {
+                        lineElement.classList.add('error');
+                    }
+
+                    logResults.appendChild(lineElement);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>
+</html>
