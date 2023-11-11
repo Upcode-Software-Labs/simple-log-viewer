@@ -1,20 +1,37 @@
 {
-  "name": "log-viewer",
-  "version": "1.0.0",
-  "description": "Simplest Server Logs viewer",
+  "name": "minimalist-log-viewer",
+  "version": "1.0.4",
+  "description": "Minimalist Server Logs viewer",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "prepare": "husky install"
+  },
+  "bin": {
+    "minimalist-log-viewer": "src/server.js"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   },
   "keywords": [
     "logs",
     "log-viewer",
+    "minimalist-log-viewer",
     "minimalist"
   ],
-  "author": "sujith@kiebot.com",
+  "author": "sujithps534@gmail.com",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",
     "express-fileupload": "^1.4.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Upcode-Software-Labs/simple-log-viewer"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^15.1.0",
+    "prettier": "^3.0.3"
   }
 }
